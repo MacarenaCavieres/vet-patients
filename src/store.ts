@@ -21,7 +21,6 @@ export const usePatientStore = create<PatientStore>()(
             (set) => ({
                 patients: [],
                 addPatient: (data) => {
-                    console.log(data);
                     const newPatient = createPatient(data);
                     set((state) => ({
                         patients: [...state.patients, newPatient],

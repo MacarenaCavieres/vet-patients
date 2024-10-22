@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import FormPatients from "./components/FormPatients";
 import { usePatientStore } from "./store";
+import PatientList from "./components/PatientList";
 
 function App() {
     const patients = usePatientStore((state) => state.patients);
@@ -25,11 +26,11 @@ function App() {
                 {isPatient ? (
                     <p className="text-3xl mb-10 text-center font-bold">Sin Pacientes</p>
                 ) : (
-                    <section className="overflow-y-scroll">
+                    <section>
                         <h2 className="text-3xl mb-10 text-center font-bold">
                             Pacientes en <span className="text-amber-600 underline">atención</span>
                         </h2>
-                        <p>algo</p>
+                        <PatientList />
                     </section>
                 )}
             </main>

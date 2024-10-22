@@ -18,7 +18,7 @@ export default function FormPatients() {
 
     return (
         <form
-            className="space-y-5 bg-slate-200 md:py-14 md:px-10 shadow-xl rounded-xl py-6 px-5"
+            className="h-screen space-y-5 bg-slate-200 md:py-14 md:px-10 shadow-xl rounded-xl py-6 px-5"
             onSubmit={handleSubmit(registerPatient)}
         >
             <div className="flex flex-col gap-1">
