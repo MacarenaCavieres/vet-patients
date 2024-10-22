@@ -16,7 +16,7 @@ function App() {
                 </h1>
             </header>
 
-            <main className="grid md:grid-cols-2 gap-10 md:m-14 mx-5 my-10">
+            <main className="grid md:grid-cols-2 gap-10 md:m-14 mx-5 my-10 md:grid-rows-1">
                 <section>
                     <h2 className="text-3xl mb-10 text-center font-bold">
                         <span className="text-amber-600 underline">Formulario</span> de pacientes
