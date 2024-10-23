@@ -29,7 +29,7 @@ function App() {
                         Sin <span className="text-amber-600 underline">Pacientes</span>
                     </p>
                 ) : (
-                    <section>
+                    <section className="mb-10">
                         <h2 className="text-3xl mb-10 text-center font-bold">
                             Pacientes en <span className="text-amber-600 underline">atención</span>
                         </h2>
