@@ -1,5 +1,8 @@
+import { toast } from "react-toastify";
 import { usePatientStore } from "../store";
 import { Patient } from "../types";
+import "react-toastify/dist/ReactToastify.css";
+import { formatDate } from "../herlpers";
 
 type PatientDetailItemProps = {
     patient: Patient;
@@ -11,6 +14,7 @@ export default function PatientDetailItem({ patient }: PatientDetailItemProps) {
 
     const handleRemove = () => {
         removePatient(patient.id);
+        toast.error("Paciente eliminado con éxito");
     };
 
     const handleActiveId = () => {
@@ -29,7 +33,7 @@ export default function PatientDetailItem({ patient }: PatientDetailItemProps) {
                 Dueño: <span className="text-slate-700">{patient.ownerName}</span>
             </p>
             <p className="text-slate-500">
-                Fecha: <span className="text-slate-700">{patient.date.toString()}</span>
+                Fecha: <span className="text-slate-700">{formatDate(patient.date.toString())}</span>
             </p>
             <p className="text-slate-500">
                 Email: <span className="text-slate-700">{patient.email}</span>

@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import FormPatients from "./components/FormPatients";
 import { usePatientStore } from "./store";
 import PatientList from "./components/PatientList";
+import { ToastContainer } from "react-toastify";
 
 function App() {
     const patients = usePatientStore((state) => state.patients);
@@ -24,7 +25,9 @@ function App() {
                     <FormPatients />
                 </section>
                 {isPatient ? (
-                    <p className="text-3xl mb-10 text-center font-bold">Sin Pacientes</p>
+                    <p className="text-3xl mb-10 text-center font-bold">
+                        Sin <span className="text-amber-600 underline">Pacientes</span>
+                    </p>
                 ) : (
                     <section>
                         <h2 className="text-3xl mb-10 text-center font-bold">
@@ -34,6 +37,7 @@ function App() {
                     </section>
                 )}
             </main>
+            <ToastContainer />
         </>
     );
 }

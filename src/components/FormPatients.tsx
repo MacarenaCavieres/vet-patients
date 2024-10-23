@@ -2,18 +2,52 @@ import { useForm } from "react-hook-form";
 import ErrorMessage from "./ErrorMessage";
 import { DraftPatient } from "../types";
 import { usePatientStore } from "../store";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function FormPatients() {
     const addPatient = usePatientStore((state) => state.addPatient);
+    const updatePatient = usePatientStore((state) => state.updatePatient);
+    const activeId = usePatientStore((state) => state.activeId);
+    const patients = usePatientStore((state) => state.patients);
+
+    const [selectedDate, setSelectedDate] = useState(false);
 
     const {
         register,
         handleSubmit,
         formState: { errors },
+        setValue,
+        reset,
     } = useForm<DraftPatient>();
 
+    useEffect(() => {
+        if (activeId) {
+            const dataId = patients.filter((patient) => patient.id === activeId)[0];
+            setValue("petName", dataId.petName);
+            setValue("ownerName", dataId.ownerName);
+            setValue("email", dataId.email);
+            setValue("date", dataId.date);
+            setValue("symptoms", dataId.symptoms);
+            setSelectedDate(true);
+        }
+    }, [activeId]);
+
+    const handleDateChange = () => {
+        setSelectedDate(true);
+    };
+
     const registerPatient = (data: DraftPatient) => {
-        addPatient(data);
+        if (activeId) {
+            updatePatient(data);
+            toast.warning("Paciente actualizado con éxito");
+        } else {
+            addPatient(data);
+            toast.success("Paciente ingresado con éxito");
+        }
+        reset();
+        setSelectedDate(false);
     };
 
     return (
@@ -53,7 +87,13 @@ export default function FormPatients() {
                     type="mail"
                     placeholder="Ingrese mail de registro"
                     className="p-2 placeholder:italic placeholder:text-slate-400 text-black"
-                    {...register("email", { required: "Email obligatorio" })}
+                    {...register("email", {
+                        required: "Email obligatorio",
+                        pattern: {
+                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                            message: "Email No Válido",
+                        },
+                    })}
                 />
                 {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
             </div>
@@ -63,8 +103,9 @@ export default function FormPatients() {
                 </label>
                 <input
                     type="date"
-                    className="p-2 text-slate-400 italic"
+                    className={`p-2 ${selectedDate ? "text-black" : "text-slate-400 italic"}`}
                     {...register("date", { required: "Fecha de ingreso obligatorio" })}
+                    onChange={handleDateChange}
                 />
                 {errors.date && <ErrorMessage>{errors.date.message}</ErrorMessage>}
             </div>
@@ -81,9 +122,11 @@ export default function FormPatients() {
                 {errors.symptoms && <ErrorMessage>{errors.symptoms.message}</ErrorMessage>}
             </div>
 
-            <button type="submit" className="uppercase bg-gray-800 py-2 w-full hover:bg-gray-950">
-                Ingresar paciente
-            </button>
+            <input
+                type="submit"
+                className="uppercase bg-gray-800 py-2 w-full hover:bg-gray-950 cursor-pointer"
+                value={activeId ? "Actualizar paciente" : "Ingresar paciente"}
+            />
         </form>
     );
 }
